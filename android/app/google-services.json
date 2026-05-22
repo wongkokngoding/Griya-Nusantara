@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "551233483379",
+    "project_id": "griyanusantara-13c80",
+    "storage_bucket": "griyanusantara-13c80.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551233483379:android:218674fd7d211f5bad7006",
+        "android_client_info": {
+          "package_name": "com.example.griyanusantara"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOV1wREX7_wY9ArBAzVf90QLf_JAjZsu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── users/{userId} ───────────────────────────────────────────────
+    // Data profil: name, email, xp, level, badges, avatarId, dll.
+    match /users/{userId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasAll(['uid', 'email'])
+        && request.resource.data.uid == userId;
+
+      allow update: if request.auth != null && request.auth.uid == userId;
+
+      allow delete: if request.auth != null && request.auth.uid == userId;
+
+      // ─── users/{userId}/favorites/{houseTitle} ───────────────────
+      match /favorites/{houseId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // ─── users_score ──────────────────────────────────────────────────
+    // Skor kuis per percobaan
+    match /users_score/{scoreId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.score is int
+        && request.resource.data.score >= 0
+        && request.resource.data.score <= 100;
+
+      allow update, delete: if false;
+    }
+
+    // ─── houses ───────────────────────────────────────────────────────
+    // Data rumah adat (baca saja dari app; tulis lewat Console / seeder)
+    match /houses/{houseId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // ─── kuis_soal ────────────────────────────────────────────────────
+    // Bank soal kuis (baca saja dari app)
+    match /kuis_soal/{soalId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+  }
+}
