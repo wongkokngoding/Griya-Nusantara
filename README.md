@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏛️ Griya Nusantara
 
 **Griya Nusantara** adalah aplikasi edukasi budaya berbasis mobile (Flutter) yang dirancang untuk mengenalkan keanekaragaman rumah adat di Indonesia secara interaktif, modern, dan menyenangkan. Aplikasi ini menggunakan elemen **gamifikasi** (XP, Level, dan Badge) untuk memotivasi pengguna dalam mempelajari sejarah, arsitektur, dan filosofi di balik setiap rumah adat di berbagai wilayah Indonesia.
@@ -237,3 +238,6 @@ Proyek ini dibuat untuk memenuhi Ujian Akhir Semester (UAS) pada mata kuliah Pem
 
 ---
 *Selamat belajar dan melestarikan budaya bangsa melalui **Griya Nusantara**!* 🏛️🇮🇩
+=======
+# Griya-Nusantara
+>>>>>>> 98f9c3f412ad4b5aecbc99056615b204768bffa3
