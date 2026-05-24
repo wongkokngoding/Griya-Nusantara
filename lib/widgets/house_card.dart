@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../app_colors.dart';
+import '../utils/responsive_helper.dart';
 
 class HouseCard extends StatelessWidget {
   final String title;
@@ -18,8 +19,9 @@ class HouseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Container(
-      margin: const EdgeInsets.only(bottom: 24.0),
+      margin: EdgeInsets.only(bottom: 24.sh),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10.0),
@@ -43,30 +45,26 @@ class HouseCard extends StatelessWidget {
                 ),
                 child: Image.network(
                   imageUrl,
-                  height: 200,
+                  height: 200.sh,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
-                      height: 200,
+                      height: 150.sh,
                       width: double.infinity,
                       color: Colors.grey[300],
-                      child: const Icon(
-                        Icons.image,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
+                      child: Icon(Icons.image, size: 50.sw, color: Colors.grey),
                     );
                   },
                 ),
               ),
               Positioned(
-                top: 16,
-                right: 16,
+                top: 16.sh,
+                right: 16.sw,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 6.0,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.sw,
+                    vertical: 6.sh,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.white.withValues(alpha: 0.9),
@@ -75,7 +73,7 @@ class HouseCard extends StatelessWidget {
                   child: Text(
                     location,
                     style: GoogleFonts.poppins(
-                      fontSize: 12,
+                      fontSize: 12.sf,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
                     ),
@@ -86,44 +84,44 @@ class HouseCard extends StatelessWidget {
           ),
           // Content
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(16.sw),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: GoogleFonts.lora(
-                    fontSize: 20,
+                    fontSize: 20.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.sh),
                 Text(
                   description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 14.sf,
                     color: AppColors.greyText,
                     height: 1.5,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.sh),
                 Row(
                   children: [
                     Text(
                       'Jelajahi Detail',
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 14.sf,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(
+                    SizedBox(width: 4.sw),
+                    Icon(
                       Icons.arrow_forward,
-                      size: 16,
+                      size: 16.sw,
                       color: AppColors.primary,
                     ),
                   ],

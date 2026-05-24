@@ -3,14 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'app_colors.dart';
-import 'quiz_screen.dart';
 import 'quiz_confirmation_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class QuizMenuScreen extends StatelessWidget {
   const QuizMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     // List region bisa disesuaikan dengan yang ada di database atau hardcode populer
     final List<Map<String, dynamic>> quizCategories = [
       {
@@ -66,11 +67,11 @@ class QuizMenuScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         titleSpacing:
-            24.0, // Memberikan jarak agar sejajar dengan padding body (24.0)
+            24.sw, // Memberikan jarak agar sejajar dengan padding body (24.0)
         title: Text(
           'Pilih Kuis',
           style: GoogleFonts.lora(
-            fontSize: 24,
+            fontSize: 24.sf,
             fontWeight: FontWeight.bold,
             color: AppColors.secondaryText,
           ),
@@ -79,11 +80,11 @@ class QuizMenuScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            bottom: 24.0,
-            top: 8.0,
+          padding: EdgeInsets.only(
+            left: 24.sw,
+            right: 24.sw,
+            bottom: 24.sh,
+            top: 8.sh,
           ),
           itemCount:
               quizCategories.length + 1, // +1 untuk kartu skor di bagian atas
@@ -108,8 +109,8 @@ class QuizMenuScreen extends StatelessWidget {
                   }
 
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 24),
-                    padding: const EdgeInsets.all(20),
+                    margin: EdgeInsets.only(bottom: 24.sh),
+                    padding: EdgeInsets.all(20.sw),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -119,7 +120,7 @@ class QuizMenuScreen extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.primary.withValues(alpha: 0.3),
@@ -131,18 +132,18 @@ class QuizMenuScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12.sw),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.2),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.stars_rounded,
                             color: Colors.white,
-                            size: 36,
+                            size: 36.sw,
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(width: 16.sw),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,14 +152,14 @@ class QuizMenuScreen extends StatelessWidget {
                                 'Total Poin Kuis',
                                 style: GoogleFonts.poppins(
                                   color: Colors.white.withValues(alpha: 0.9),
-                                  fontSize: 14,
+                                  fontSize: 14.sf,
                                 ),
                               ),
                               Text(
                                 '$totalScore Poin',
                                 style: GoogleFonts.lora(
                                   color: Colors.white,
-                                  fontSize: 28,
+                                  fontSize: 28.sf,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -175,14 +176,14 @@ class QuizMenuScreen extends StatelessWidget {
             // Untuk index lainnya, tampilkan list kategori (dikurangi 1 karena index 0 dipakai skor)
             final category = quizCategories[index - 1];
             return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
+              padding: EdgeInsets.only(bottom: 16.sh),
               child: InkWell(
                 onTap: () {
                   _showQuizSelectionConfirmation(context, category);
                 },
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(16.sw),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -200,8 +201,8 @@ class QuizMenuScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        width: 60,
-                        height: 60,
+                        width: 60.sw,
+                        height: 60.sw,
                         decoration: BoxDecoration(
                           color: (category['color'] as Color).withValues(
                             alpha: 0.1,
@@ -211,10 +212,10 @@ class QuizMenuScreen extends StatelessWidget {
                         child: Icon(
                           category['icon'],
                           color: category['color'],
-                          size: 30,
+                          size: 30.sw,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.sw),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,27 +223,27 @@ class QuizMenuScreen extends StatelessWidget {
                             Text(
                               category['title'],
                               style: GoogleFonts.poppins(
-                                fontSize: 16,
+                                fontSize: 16.sf,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.secondaryText,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6.sh),
                             Text(
                               category['desc'],
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: 13.sf,
                                 color: AppColors.greyText,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.sw),
                       Icon(
                         Icons.chevron_right_rounded,
                         color: AppColors.greyText.withValues(alpha: 0.5),
-                        size: 32,
+                        size: 32.sw,
                       ),
                     ],
                   ),
@@ -256,14 +257,20 @@ class QuizMenuScreen extends StatelessWidget {
   }
 
   void _showQuizSelectionConfirmation(
-      BuildContext context, Map<String, dynamic> category) {
+    BuildContext context,
+    Map<String, dynamic> category,
+  ) {
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (context) {
+        ResponsiveHelper.init(context);
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: 24.sw,
+            vertical: 24.sh,
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.background,
@@ -271,13 +278,13 @@ class QuizMenuScreen extends StatelessWidget {
               border: Border.all(color: AppColors.border),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 24,
                   offset: const Offset(0, 12),
                 ),
               ],
             ),
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.sw),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -285,35 +292,41 @@ class QuizMenuScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12.sw),
                       decoration: BoxDecoration(
-                        color: (category['color'] as Color).withOpacity(0.12),
+                        color: (category['color'] as Color).withValues(
+                          alpha: 0.12,
+                        ),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(category['icon'], color: category['color'] as Color, size: 28),
+                      child: Icon(
+                        category['icon'],
+                        color: category['color'] as Color,
+                        size: 28.sw,
+                      ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.sw),
                     Expanded(
                       child: Text(
                         'Konfirmasi Kuis',
                         style: GoogleFonts.lora(
-                          fontSize: 20,
+                          fontSize: 20.sf,
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryText,
                         ),
                       ),
                     ),
                     IconButton(
-                      splashRadius: 22,
+                      splashRadius: 22.sw,
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.close_rounded),
                       color: AppColors.secondaryText,
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.sh),
                 Container(
-                  padding: const EdgeInsets.all(18),
+                  padding: EdgeInsets.all(18.sw),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(18),
@@ -325,29 +338,33 @@ class QuizMenuScreen extends StatelessWidget {
                       Text(
                         category['title'],
                         style: GoogleFonts.lora(
-                          fontSize: 18,
+                          fontSize: 18.sf,
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       Text(
                         category['desc'],
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           color: AppColors.greyText,
                           height: 1.5,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.sh),
                       Row(
                         children: [
-                          const Icon(Icons.location_on_rounded, size: 16, color: AppColors.greyText),
-                          const SizedBox(width: 6),
+                          Icon(
+                            Icons.location_on_rounded,
+                            size: 16.sw,
+                            color: AppColors.greyText,
+                          ),
+                          SizedBox(width: 6.sw),
                           Text(
                             category['region'],
                             style: GoogleFonts.manrope(
-                              fontSize: 13,
+                              fontSize: 13.sf,
                               color: AppColors.secondaryText,
                               fontWeight: FontWeight.w600,
                             ),
@@ -357,18 +374,18 @@ class QuizMenuScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.sh),
                 Text(
                   'Yakin ingin mulai kuis ini sekarang?',
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 14.sf,
                     color: AppColors.greyText,
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.sh),
                 SizedBox(
                   width: double.infinity,
-                  height: 52,
+                  height: 52.sh,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -395,17 +412,17 @@ class QuizMenuScreen extends StatelessWidget {
                     child: Text(
                       'Mulai Kuis',
                       style: GoogleFonts.manrope(
-                        fontSize: 16,
+                        fontSize: 16.sf,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.sh),
                 SizedBox(
                   width: double.infinity,
-                  height: 52,
+                  height: 52.sh,
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -419,7 +436,7 @@ class QuizMenuScreen extends StatelessWidget {
                     child: Text(
                       'Kembali',
                       style: GoogleFonts.manrope(
-                        fontSize: 15,
+                        fontSize: 15.sf,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                       ),

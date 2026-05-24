@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +12,7 @@ import 'house_detail_screen.dart';
 import 'quiz_menu_screen.dart';
 import 'library_screen.dart';
 import 'profile_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -43,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: GoogleFonts.lora(
             color: AppColors.primary,
             fontWeight: FontWeight.bold,
-            fontSize: 24,
+            fontSize: 24.sf,
           ),
         ),
         centerTitle: true,
@@ -59,26 +63,33 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.white,
         elevation: 20,
+        selectedFontSize: 12.sf,
+        unselectedFontSize: 12.sf,
+        selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: GoogleFonts.poppins(
+          fontWeight: FontWeight.normal,
+        ),
+        iconSize: 24.sw,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.explore_outlined),
             activeIcon: Icon(Icons.explore),
-            label: 'Explore',
+            label: 'Beranda',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map_outlined),
             activeIcon: Icon(Icons.map),
-            label: 'Regions',
+            label: 'Daerah',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.quiz_outlined),
             activeIcon: Icon(Icons.quiz),
-            label: 'Quiz',
+            label: 'Kuis',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.library_books_outlined),
             activeIcon: Icon(Icons.library_books),
-            label: 'Library',
+            label: 'Perpustakaan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
@@ -104,6 +115,7 @@ class _ExploreTab extends StatefulWidget {
 class _ExploreTabState extends State<_ExploreTab> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  Timer? _searchDebounce;
   final User? _user = FirebaseAuth.instance.currentUser;
 
   // Daftar rumah adat "Populer" yang tampil sebagai default di beranda
@@ -118,14 +130,25 @@ class _ExploreTabState extends State<_ExploreTab> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
 
+  void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        _searchQuery = value.toLowerCase().trim();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.all(24.sw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -143,7 +166,7 @@ class _ExploreTabState extends State<_ExploreTab> {
               return Text(
                 'Selamat Datang,\n$name',
                 style: GoogleFonts.lora(
-                  fontSize: 28,
+                  fontSize: 28.sf,
                   fontWeight: FontWeight.bold,
                   color: AppColors.secondaryText,
                   height: 1.2,
@@ -151,31 +174,31 @@ class _ExploreTabState extends State<_ExploreTab> {
               );
             },
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8.sh),
+          Text(
             'Temukan warisan Rumah Adat Indonesia.',
-            style: TextStyle(fontSize: 16, color: AppColors.greyText),
+            style: TextStyle(fontSize: 16.sf, color: AppColors.greyText),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.sh),
 
           // ── Search Bar ──────────────────────────────────────────────────
           TextField(
             controller: _searchController,
-            onChanged: (value) {
-              setState(() {
-                _searchQuery = value.toLowerCase().trim();
-              });
-            },
+            onChanged: _onSearchChanged,
             decoration: InputDecoration(
-              hintText: 'Cari rumah adat, provinsi, atau pulau...',
+              hintText: 'Cari rumah adat, provinsi, atau pulau',
               hintStyle: GoogleFonts.poppins(
                 color: AppColors.greyText,
-                fontSize: 14,
+                fontSize: 14.sf,
               ),
-              prefixIcon: const Icon(Icons.search, color: AppColors.greyText),
+              prefixIcon: Icon(
+                Icons.search,
+                color: AppColors.greyText,
+                size: 24.sw,
+              ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: const EdgeInsets.symmetric(vertical: 14),
+              contentPadding: EdgeInsets.symmetric(vertical: 14.sh),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(color: AppColors.border),
@@ -193,18 +216,18 @@ class _ExploreTabState extends State<_ExploreTab> {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 15.sh),
 
           // ── Section Title ───────────────────────────────────────────────
           Text(
             _searchQuery.isEmpty ? 'Rumah Adat Populer' : 'Hasil Pencarian',
             style: GoogleFonts.lora(
-              fontSize: 22,
+              fontSize: 22.sf,
               fontWeight: FontWeight.bold,
               color: AppColors.secondaryText,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.sh),
 
           // ── Main Content (Filtered locally from Firestore) ──────────────
           StreamBuilder<QuerySnapshot>(
@@ -248,20 +271,23 @@ class _ExploreTabState extends State<_ExploreTab> {
               if (filteredDocs.isEmpty) {
                 return Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
+                    padding: EdgeInsets.only(top: 40.sh),
                     child: Column(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.search_off_rounded,
-                          size: 64,
+                          size: 64.sw,
                           color: AppColors.border,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.sh),
                         Text(
                           _searchQuery.isEmpty
                               ? 'Belum ada data populer yang ditemukan.'
                               : 'Pencarian "$_searchQuery" tidak ditemukan',
-                          style: GoogleFonts.poppins(color: AppColors.greyText),
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sf,
+                            color: AppColors.greyText,
+                          ),
                         ),
                       ],
                     ),

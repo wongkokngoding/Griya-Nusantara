@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'app_colors.dart';
 import 'widgets/house_card.dart';
 import 'house_detail_screen.dart';
+import 'utils/responsive_helper.dart';
 
 // ===========================================================================
 // Data Model
@@ -57,8 +58,9 @@ final List<IslandRegion> kIslandRegions = [
     icon: Icons.park,
     color: Colors.teal[700]!,
     description: '11 Rumah Adat suku Dayak & Banjar',
-    xPercent: 0.43,
-    yPercent: 0.58,
+    xPercent: 0.42,
+    yPercent: 0.48,
+    textAboveCircle: true,
   ),
   IslandRegion(
     name: 'Sulawesi',
@@ -66,10 +68,8 @@ final List<IslandRegion> kIslandRegions = [
     icon: Icons.sailing,
     color: Colors.indigo[600]!,
     description: '7 Rumah Adat dari Toraja hingga Minahasa',
-    xPercent: 0.60,
-    yPercent: 0.52,
-    textAboveCircle:
-        true, // 👈 Posisikan teks Sulawesi di atas lingkaran agar tidak bertabrakan
+    xPercent: 0.58,
+    yPercent: 0.64,
   ),
   IslandRegion(
     name: 'Papua',
@@ -78,7 +78,7 @@ final List<IslandRegion> kIslandRegions = [
     color: Colors.orange[800]!,
     description: '10 Rumah Adat dari Honai hingga Kariwari',
     xPercent: 0.93,
-    yPercent: 0.65,
+    yPercent: 0.66,
   ),
 ];
 
@@ -100,7 +100,7 @@ class _RegionsScreenState extends State<RegionsScreen>
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
-  // Animasi slide-up tombol wilayah
+  // Animasi slide-up tombol wilayahrr
   late AnimationController _slideController;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
@@ -173,6 +173,7 @@ class _RegionsScreenState extends State<RegionsScreen>
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -188,19 +189,19 @@ class _RegionsScreenState extends State<RegionsScreen>
                   children: [
                     // ── Header ──────────────────────────────────────────────
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                      padding: EdgeInsets.fromLTRB(24.sw, 24.sh, 24.sw, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Peta Nusantara',
                             style: GoogleFonts.lora(
-                              fontSize: 28,
+                              fontSize: 24.sf,
                               fontWeight: FontWeight.bold,
                               color: AppColors.secondaryText,
                             ),
                           ),
-                          const SizedBox(height: 6),
+                          SizedBox(height: 6.sh),
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 300),
                             child: Text(
@@ -209,7 +210,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                                   : 'Pulau ${_selectedRegion!.label} dipilih. Ketuk tombol di bawah untuk melihat rumah adat.',
                               key: ValueKey(_selectedRegion?.name ?? 'empty'),
                               style: GoogleFonts.poppins(
-                                fontSize: 13,
+                                fontSize: 13.sf,
                                 color: _selectedRegion == null
                                     ? AppColors.greyText
                                     : AppColors.primary,
@@ -223,11 +224,11 @@ class _RegionsScreenState extends State<RegionsScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.sh),
 
                     // ── Peta SVG Indonesia ────────────────────────────────────
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16.sw),
                       child: AspectRatio(
                         aspectRatio: 2021 / 1500,
                         child: Container(
@@ -263,7 +264,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                                     children: [
                                       Positioned.fill(
                                         child: Padding(
-                                          padding: const EdgeInsets.all(12),
+                                          padding: EdgeInsets.all(12.sw),
                                           child: SvgPicture.asset(
                                             'assets/indonesia.svg',
                                             fit: BoxFit.contain,
@@ -280,8 +281,8 @@ class _RegionsScreenState extends State<RegionsScreen>
                                             region.yPercent * mapHeight;
 
                                         return Positioned(
-                                          left: leftPos - 55,
-                                          top: topPos - 32,
+                                          left: leftPos - 55.sw,
+                                          top: topPos - 32.sh,
                                           child: _MapHotspotPin(
                                             region: region,
                                             isActive: isActive,
@@ -300,11 +301,11 @@ class _RegionsScreenState extends State<RegionsScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 28),
+                    SizedBox(height: 28.sh),
 
                     // ── Judul Section "Jelajahi Pulau" ────────────────────────
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 20.sw),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -314,7 +315,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                               Text(
                                 'Jelajahi Pulau',
                                 style: GoogleFonts.lora(
-                                  fontSize: 24,
+                                  fontSize: 24.sf,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.secondaryText,
                                 ),
@@ -322,7 +323,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                               Text(
                                 'Pilih pulau untuk melihat rumah adatnya',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 11,
+                                  fontSize: 11.sf,
                                   color: AppColors.greyText,
                                 ),
                               ),
@@ -330,9 +331,9 @@ class _RegionsScreenState extends State<RegionsScreen>
                           ),
                           const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.sw,
+                              vertical: 3.sh,
                             ),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withValues(alpha: 0.08),
@@ -341,7 +342,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                             child: Text(
                               '5 Pulau',
                               style: GoogleFonts.poppins(
-                                fontSize: 11,
+                                fontSize: 11.sf,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.primary,
                               ),
@@ -351,11 +352,11 @@ class _RegionsScreenState extends State<RegionsScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14.sh),
 
                     // ── Shortcut Button Pulau (Bento Layout Kotak) ────────────
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16.sw),
                       child: Column(
                         children: [
                           Row(
@@ -369,7 +370,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                                   onTap: () => _onPinTap(kIslandRegions[0]),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.sw),
                               Expanded(
                                 child: _BentoShortcutButton(
                                   region: kIslandRegions[1],
@@ -379,7 +380,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                                   onTap: () => _onPinTap(kIslandRegions[1]),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.sw),
                               Expanded(
                                 child: _BentoShortcutButton(
                                   region: kIslandRegions[2],
@@ -391,7 +392,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.sh),
                           Row(
                             children: [
                               Expanded(
@@ -403,7 +404,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                                   onTap: () => _onPinTap(kIslandRegions[3]),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.sw),
                               Expanded(
                                 child: _BentoShortcutButton(
                                   region: kIslandRegions[4],
@@ -419,7 +420,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.sh),
                   ],
                 ),
               ),
@@ -431,7 +432,7 @@ class _RegionsScreenState extends State<RegionsScreen>
               curve: Curves.easeInOutCubic,
               height: _selectedRegion == null
                   ? 0
-                  : 100, // 0 saat awal/kosong, 100 saat pulau diklik
+                  : 118.sh, // 0 saat awal/kosong, 132 saat pulau diklik agar card tidak overflow
               child: _selectedRegion == null
                   ? const SizedBox.shrink()
                   : FadeTransition(
@@ -439,7 +440,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                       child: SlideTransition(
                         position: _slideAnimation,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 20.sw),
                           child: _RegionActionCard(
                             region: _selectedRegion!,
                             onTap: () => _onRegionButtonTap(_selectedRegion!),
@@ -456,7 +457,7 @@ class _RegionsScreenState extends State<RegionsScreen>
                     ),
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16.sh),
           ],
         ),
       ),
@@ -482,6 +483,7 @@ class _MapHotspotPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     // Siapkan daftar widget
     final List<Widget> childrenList = [
       // 1. Lingkaran berdenyut
@@ -495,8 +497,8 @@ class _MapHotspotPin extends StatelessWidget {
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
-          width: isActive ? 22 : 16,
-          height: isActive ? 22 : 16,
+          width: isActive ? 22.sw : 16.sw,
+          height: isActive ? 22.sw : 16.sw,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: region.color.withValues(alpha: isActive ? 1.0 : 0.7),
@@ -511,8 +513,8 @@ class _MapHotspotPin extends StatelessWidget {
           child: Center(
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-              width: isActive ? 10 : 6,
-              height: isActive ? 10 : 6,
+              width: isActive ? 10.sw : 6.sw,
+              height: isActive ? 10.sw : 6.sw,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
@@ -521,11 +523,11 @@ class _MapHotspotPin extends StatelessWidget {
           ),
         ),
       ),
-      const SizedBox(height: 5),
+      SizedBox(height: 5.sh),
       // 2. Badge nama pulau
       AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 8.sw, vertical: 4.sh),
         decoration: BoxDecoration(
           color: isActive ? region.color : Colors.white.withValues(alpha: 0.92),
           borderRadius: BorderRadius.circular(12),
@@ -543,14 +545,14 @@ class _MapHotspotPin extends StatelessWidget {
           children: [
             Icon(
               region.icon,
-              size: 14,
+              size: 14.sw,
               color: isActive ? Colors.white : region.color,
             ),
-            const SizedBox(width: 3),
+            SizedBox(width: 3.sw),
             Text(
               region.label,
               style: GoogleFonts.poppins(
-                fontSize: 9,
+                fontSize: 9.sf,
                 fontWeight: FontWeight.bold,
                 color: isActive ? Colors.white : AppColors.secondaryText,
               ),
@@ -590,6 +592,7 @@ class _RegionActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -603,20 +606,20 @@ class _RegionActionCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 20.sw, vertical: 14.sh),
       child: Row(
         children: [
           // Icon/emoji
           Container(
-            width: 52,
-            height: 52,
+            width: 52.sw,
+            height: 52.sw,
             decoration: BoxDecoration(
               color: region.color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(region.icon, size: 26, color: region.color),
+            child: Icon(region.icon, size: 26.sw, color: region.color),
           ),
-          const SizedBox(width: 14),
+          SizedBox(width: 14.sw),
           // Info wilayah
           Expanded(
             child: Column(
@@ -626,28 +629,28 @@ class _RegionActionCard extends StatelessWidget {
                 Text(
                   'Pulau ${region.label}',
                   style: GoogleFonts.lora(
-                    fontSize: 17,
+                    fontSize: 17.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 3),
+                SizedBox(height: 3.sh),
                 Text(
                   region.description,
                   style: GoogleFonts.poppins(
-                    fontSize: 11,
+                    fontSize: 11.sf,
                     color: AppColors.greyText,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.sw),
           // Tombol Jelajahi
           GestureDetector(
             onTap: onTap,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 14.sw, vertical: 10.sh),
               decoration: BoxDecoration(
                 color: region.color,
                 borderRadius: BorderRadius.circular(12),
@@ -664,16 +667,16 @@ class _RegionActionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.explore_outlined,
                     color: Colors.white,
-                    size: 18,
+                    size: 18.sw,
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2.sh),
                   Text(
                     'Jelajahi',
                     style: GoogleFonts.poppins(
-                      fontSize: 10,
+                      fontSize: 10.sf,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -682,21 +685,17 @@ class _RegionActionCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8.sw),
           // Tombol tutup / dismiss
           GestureDetector(
             onTap: onDismiss,
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.sw),
               decoration: BoxDecoration(
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(
-                Icons.close,
-                size: 16,
-                color: AppColors.greyText,
-              ),
+              child: Icon(Icons.close, size: 16.sw, color: AppColors.greyText),
             ),
           ),
         ],
@@ -715,6 +714,7 @@ class _RegionBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return DraggableScrollableSheet(
       initialChildSize: 0.78,
       minChildSize: 0.4,
@@ -728,31 +728,35 @@ class _RegionBottomSheet extends StatelessWidget {
           child: Column(
             children: [
               // Drag Handle
-              const SizedBox(height: 12),
+              SizedBox(height: 12.sh),
               Container(
-                width: 40,
-                height: 4,
+                width: 40.sw,
+                height: 4.sh,
                 decoration: BoxDecoration(
                   color: AppColors.border,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.sh),
 
               // Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(horizontal: 24.sw),
                 child: Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sw),
                       decoration: BoxDecoration(
                         color: region.color.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(region.icon, size: 24, color: region.color),
+                      child: Icon(
+                        region.icon,
+                        size: 24.sw,
+                        color: region.color,
+                      ),
                     ),
-                    const SizedBox(width: 14),
+                    SizedBox(width: 14.sw),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -760,7 +764,7 @@ class _RegionBottomSheet extends StatelessWidget {
                           Text(
                             'Pulau ${region.label}',
                             style: GoogleFonts.lora(
-                              fontSize: 20,
+                              fontSize: 20.sf,
                               fontWeight: FontWeight.bold,
                               color: AppColors.secondaryText,
                             ),
@@ -768,7 +772,7 @@ class _RegionBottomSheet extends StatelessWidget {
                           Text(
                             region.description,
                             style: GoogleFonts.poppins(
-                              fontSize: 12,
+                              fontSize: 12.sf,
                               color: AppColors.greyText,
                             ),
                           ),
@@ -778,14 +782,14 @@ class _RegionBottomSheet extends StatelessWidget {
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                        padding: EdgeInsets.all(8.sw),
+                        decoration: const BoxDecoration(
                           color: AppColors.background,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.close,
-                          size: 18,
+                          size: 18.sw,
                           color: AppColors.greyText,
                         ),
                       ),
@@ -794,9 +798,9 @@ class _RegionBottomSheet extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8.sh),
               const Divider(color: AppColors.border, height: 1),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.sh),
 
               // Daftar Rumah Adat dari Firestore
               Expanded(
@@ -812,12 +816,12 @@ class _RegionBottomSheet extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircularProgressIndicator(color: region.color),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.sh),
                             Text(
                               'Memuat rumah adat...',
                               style: GoogleFonts.poppins(
                                 color: AppColors.greyText,
-                                fontSize: 13,
+                                fontSize: 13.sf,
                               ),
                             ),
                           ],
@@ -829,7 +833,7 @@ class _RegionBottomSheet extends StatelessWidget {
                       return Center(
                         child: Text(
                           'Terjadi kesalahan: ${snapshot.error}',
-                          style: const TextStyle(color: Colors.red),
+                          style: TextStyle(color: Colors.red, fontSize: 14.sf),
                         ),
                       );
                     }
@@ -843,16 +847,16 @@ class _RegionBottomSheet extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.house_siding_outlined,
-                              size: 64,
+                              size: 64.sw,
                               color: AppColors.border,
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.sh),
                             Text(
                               'Belum ada data untuk wilayah ini.\nSilahkan sync database terlebih dahulu.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
                                 color: AppColors.greyText,
-                                fontSize: 13,
+                                fontSize: 13.sf,
                               ),
                             ),
                           ],
@@ -862,7 +866,7 @@ class _RegionBottomSheet extends StatelessWidget {
 
                     return ListView.builder(
                       controller: scrollController,
-                      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                      padding: EdgeInsets.fromLTRB(24.sw, 8.sh, 24.sw, 24.sh),
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
                         final house =
@@ -926,14 +930,15 @@ class _BentoShortcutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        height: 115, // 👈 Tinggi bento box diperbesar agar muat deskripsi
-        padding: const EdgeInsets.symmetric(
-          horizontal: 6,
-          vertical: 8,
+        height: 115.sh, // 👈 Tinggi bento box diperbesar agar muat deskripsi
+        padding: EdgeInsets.symmetric(
+          horizontal: 6.sw,
+          vertical: 8.sh,
         ), // Padding agar teks tidak mentok garis
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.white,
@@ -964,19 +969,19 @@ class _BentoShortcutButton extends StatelessWidget {
           children: [
             Icon(
               region.icon,
-              size: 25,
+              size: 25.sw,
               color: isSelected ? Colors.white : region.color,
             ), // 👈 Ikon diperbesar
-            const SizedBox(height: 6),
+            SizedBox(height: 6.sh),
             Text(
               region.label,
               style: GoogleFonts.poppins(
-                fontSize: 14, // 👈 Teks pulau diperbesar
+                fontSize: 14.sf, // 👈 Teks pulau diperbesar
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                 color: isSelected ? Colors.white : AppColors.secondaryText,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4.sh),
             // 👈 Ringkasan singkat ditambahkan di sini
             Text(
               region.description,
@@ -984,8 +989,8 @@ class _BentoShortcutButton extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.poppins(
-                fontSize:
-                    10, // Ukuran font dibuat kecil agar estetik dan muat di dalam kotak
+                fontSize: 10
+                    .sf, // Ukuran font dibuat kecil agar estetik dan muat di dalam kotak
                 height: 1.2,
                 color: isSelected
                     ? Colors.white.withValues(alpha: 0.9)

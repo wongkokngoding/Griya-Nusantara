@@ -7,6 +7,7 @@ import 'constants/app_info.dart';
 import 'theme/app_text_styles.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -68,6 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -75,32 +77,39 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: _fadeAnimation,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: EdgeInsets.symmetric(horizontal: 32.sw),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/logo.png', width: 100, height: 100),
-                  const SizedBox(height: 16),
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 100.sw,
+                    height: 100.sw,
+                  ),
+                  SizedBox(height: 16.sh),
                   Text(
                     AppInfo.name,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.lora(
-                      fontSize: 28,
+                      fontSize: 28.sf,
                       fontWeight: FontWeight.bold,
                       color: AppColors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8.sh),
+                  Text(
                     'Rumah Adat Warisan Budaya',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14, color: AppColors.greyText),
+                    style: TextStyle(
+                      fontSize: 14.sf,
+                      color: AppColors.greyText,
+                    ),
                   ),
-                  const SizedBox(height: 48),
-                  const SizedBox(
-                    width: 28,
-                    height: 28,
-                    child: CircularProgressIndicator(
+                  SizedBox(height: 48.sh),
+                  SizedBox(
+                    width: 28.sw,
+                    height: 28.sw,
+                    child: const CircularProgressIndicator(
                       strokeWidth: 2.5,
                       color: AppColors.primary,
                     ),

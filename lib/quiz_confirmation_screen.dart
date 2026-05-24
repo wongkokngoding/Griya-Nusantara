@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 import 'quiz_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class QuizConfirmationScreen extends StatelessWidget {
   final String title;
@@ -21,6 +22,7 @@ class QuizConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -30,7 +32,7 @@ class QuizConfirmationScreen extends StatelessWidget {
         title: Text(
           'Detail Kuis',
           style: GoogleFonts.lora(
-            fontSize: 22,
+            fontSize: 22.sf,
             fontWeight: FontWeight.bold,
             color: AppColors.secondaryText,
           ),
@@ -38,13 +40,13 @@ class QuizConfirmationScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.sw, vertical: 16.sh),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Hero Card Kategori
               Container(
-                padding: const EdgeInsets.all(28),
+                padding: EdgeInsets.all(28.sw),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(20),
@@ -55,30 +57,30 @@ class QuizConfirmationScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 80.sw,
+                      height: 80.sw,
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(icon, color: color, size: 42),
+                      child: Icon(icon, color: color, size: 42.sw),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.sh),
                     Text(
                       title,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lora(
-                        fontSize: 26,
+                        fontSize: 26.sf,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondaryText,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.sh),
                     Text(
                       description,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 14.sf,
                         color: AppColors.greyText,
                         height: 1.5,
                       ),
@@ -86,11 +88,11 @@ class QuizConfirmationScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.sh),
 
               // Info Kuis
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.sw),
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(14),
@@ -110,14 +112,14 @@ class QuizConfirmationScreen extends StatelessWidget {
                       label: 'Jumlah Soal',
                       value: '10 soal per sesi',
                     ),
-                    const Divider(height: 24, color: AppColors.border),
+                    Divider(height: 24.sh, color: AppColors.border),
                     _infoRow(
                       icon: Icons.shuffle_rounded,
                       iconColor: Colors.orange,
                       label: 'Urutan Soal',
                       value: 'Diacak setiap sesi',
                     ),
-                    const Divider(height: 24, color: AppColors.border),
+                    Divider(height: 24.sh, color: AppColors.border),
                     _infoRow(
                       icon: Icons.stars_rounded,
                       iconColor: Colors.amber,
@@ -133,7 +135,7 @@ class QuizConfirmationScreen extends StatelessWidget {
               // Tombol Mulai Kuis
               SizedBox(
                 width: double.infinity,
-                height: 54,
+                height: 54.sh,
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // Ganti halaman ini dengan QuizScreen (hapus dari stack)
@@ -144,12 +146,12 @@ class QuizConfirmationScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.play_arrow_rounded,
-                      color: Colors.white, size: 28),
+                  icon: Icon(Icons.play_arrow_rounded,
+                      color: Colors.white, size: 28.sw),
                   label: Text(
                     'Mulai Kuis',
                     style: GoogleFonts.manrope(
-                      fontSize: 16,
+                      fontSize: 16.sf,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -163,22 +165,22 @@ class QuizConfirmationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.sh),
 
               // Tombol Kembali ke Pilih Kuis
               SizedBox(
                 width: double.infinity,
-                height: 54,
+                height: 54.sh,
                 child: OutlinedButton.icon(
                   onPressed: () {
                     // Pop kembali ke QuizMenuScreen
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_rounded, color: AppColors.primary),
+                  icon: Icon(Icons.arrow_back_rounded, color: AppColors.primary, size: 20.sw),
                   label: Text(
                     'Kembali ke Pilih Kuis',
                     style: GoogleFonts.manrope(
-                      fontSize: 15,
+                      fontSize: 15.sf,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
                     ),
@@ -191,7 +193,7 @@ class QuizConfirmationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.sh),
             ],
           ),
         ),
@@ -208,19 +210,19 @@ class QuizConfirmationScreen extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.sw),
           decoration: BoxDecoration(
             color: iconColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, color: iconColor, size: 20),
+          child: Icon(icon, color: iconColor, size: 20.sw),
         ),
-        const SizedBox(width: 14),
+        SizedBox(width: 14.sw),
         Expanded(
           child: Text(
             label,
             style: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 14.sf,
               color: AppColors.greyText,
             ),
           ),
@@ -228,7 +230,7 @@ class QuizConfirmationScreen extends StatelessWidget {
         Text(
           value,
           style: GoogleFonts.manrope(
-            fontSize: 14,
+            fontSize: 14.sf,
             fontWeight: FontWeight.bold,
             color: AppColors.secondaryText,
           ),

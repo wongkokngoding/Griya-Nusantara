@@ -6,7 +6,7 @@ class QuizQuestion {
   final int correctAnswerIndex; // Indeks jawaban yang benar (0 sampai 3)
   final String region; // Kategori wilayah (Sumatera, Jawa, dsb)
 
-  QuizQuestion({
+  const QuizQuestion({
     required this.id,
     required this.questionText,
     required this.questionImageUrl,

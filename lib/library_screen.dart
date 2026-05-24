@@ -5,12 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'app_colors.dart';
 import 'widgets/house_card.dart';
 import 'house_detail_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class LibraryScreen extends StatelessWidget {
   const LibraryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -19,7 +21,10 @@ class LibraryScreen extends StatelessWidget {
         body: Center(
           child: Text(
             'Silakan login untuk melihat koleksi favorit Anda.',
-            style: GoogleFonts.poppins(color: AppColors.greyText),
+            style: GoogleFonts.poppins(
+              fontSize: 14.sf,
+              color: AppColors.greyText,
+            ),
           ),
         ),
       );
@@ -31,11 +36,11 @@ class LibraryScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
-        titleSpacing: 24.0,
+        titleSpacing: 24.sw,
         title: Text(
           'Koleksi Favorit',
           style: GoogleFonts.lora(
-            fontSize: 24,
+            fontSize: 24.sf,
             fontWeight: FontWeight.bold,
             color: AppColors.secondaryText,
           ),
@@ -66,29 +71,30 @@ class LibraryScreen extends StatelessWidget {
             if (docs.isEmpty) {
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  padding: EdgeInsets.symmetric(horizontal: 32.sw),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.favorite_border_rounded,
-                        size: 64,
+                        size: 64.sw,
                         color: AppColors.border,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.sh),
                       Text(
                         'Belum ada rumah adat favorit',
                         style: GoogleFonts.lora(
-                          fontSize: 20,
+                          fontSize: 20.sf,
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       Text(
                         'Jelajahi berbagai rumah adat nusantara dan ketuk ikon hati untuk menyimpannya di sini.',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
+                          fontSize: 14.sf,
                           color: AppColors.greyText,
                           height: 1.5,
                         ),
@@ -101,11 +107,11 @@ class LibraryScreen extends StatelessWidget {
 
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(
-                left: 24,
-                right: 24,
-                bottom: 24,
-                top: 8,
+              padding: EdgeInsets.only(
+                left: 24.sw,
+                right: 24.sw,
+                bottom: 24.sh,
+                top: 8.sh,
               ),
               itemCount: docs.length,
               itemBuilder: (context, index) {
@@ -119,7 +125,7 @@ class LibraryScreen extends StatelessWidget {
                     house['imageUrl'] ?? 'https://via.placeholder.com/600x400';
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 2.0),
+                  padding: EdgeInsets.only(bottom: 2.sh),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
@@ -8,6 +9,7 @@ import 'constants/app_avatars.dart';
 import 'login_screen.dart';
 import 'settings_screen.dart';
 import 'utils/badge_utils.dart';
+import 'utils/responsive_helper.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -59,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }) {
     final style = BadgeUtils.styleFor(badge);
     final content = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 14.sw, vertical: 8.sh),
       decoration: BoxDecoration(
         color: style.background,
         borderRadius: BorderRadius.circular(10),
@@ -68,22 +70,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(BadgeUtils.iconFor(badge), size: 20, color: style.foreground),
-          const SizedBox(width: 8),
+          Icon(BadgeUtils.iconFor(badge), size: 20.sw, color: style.foreground),
+          SizedBox(width: 8.sw),
           Text(
             badge,
             style: GoogleFonts.manrope(
-              fontSize: 13,
+              fontSize: 13.sf,
               fontWeight: FontWeight.bold,
               color: style.foreground,
             ),
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: 6.sw),
           Icon(
             onTap != null
                 ? Icons.info_outline_rounded
                 : Icons.push_pin_rounded,
-            size: 16,
+            size: 16.sw,
             color: style.foreground.withValues(alpha: 0.8),
           ),
         ],
@@ -104,18 +106,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }) {
     return OutlinedButton.icon(
       onPressed: onPressed,
-      icon: const Icon(Icons.military_tech_outlined, size: 20),
+      icon: Icon(Icons.military_tech_outlined, size: 20.sw),
       label: Text(
         label,
         style: GoogleFonts.manrope(
-          fontSize: 14,
+          fontSize: 14.sf,
           fontWeight: FontWeight.w600,
         ),
       ),
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primary,
         side: const BorderSide(color: AppColors.primary, width: 1.5),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20.sw, vertical: 12.sh),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -130,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          AppAvatarWidget(avatarId: avatarId, radius: 52),
+          AppAvatarWidget(avatarId: avatarId, radius: 52.sw),
           if (_isSavingAvatar)
             const Positioned.fill(
               child: DecoratedBox(
@@ -147,14 +149,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             right: 4,
             bottom: 4,
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.sw),
               decoration: const BoxDecoration(
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.swap_horiz_rounded,
-                size: 18,
+                size: 18.sw,
                 color: Colors.white,
               ),
             ),
@@ -174,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (sheetContext) {
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+            padding: EdgeInsets.fromLTRB(20.sw, 16.sh, 20.sw, 24.sh),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -182,27 +184,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   'Pilih Avatar',
                   style: GoogleFonts.lora(
-                    fontSize: 18,
+                    fontSize: 18.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.sh),
                 Text(
                   'Pilih karakter yang mewakili Anda di Griya Nusantara.',
                   style: GoogleFonts.manrope(
-                    fontSize: 13,
+                    fontSize: 13.sf,
                     color: AppColors.greyText,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.sh),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: ResponsiveHelper.width >= 600 ? 5 : 4,
+                    mainAxisSpacing: 12.sh,
+                    crossAxisSpacing: 12.sw,
                     childAspectRatio: 0.82,
                   ),
                   itemCount: AppAvatars.all.length,
@@ -232,19 +234,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              avatar.icon,
-                              size: 32,
-                              color: avatar.iconColor,
+                            CircleAvatar(
+                              radius: 30.sw,
+                              backgroundColor: avatar.background,
+                              child: ClipOval(
+                                child: SvgPicture.asset(
+                                  avatar.assetPath,
+                                  width: 64.sw,
+                                  height: 64.sw,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                    avatar.iconColor,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6.sh),
                             Text(
                               avatar.label,
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.manrope(
-                                fontSize: 9,
+                                fontSize: 9.sf,
                                 fontWeight: isSelected
                                     ? FontWeight.bold
                                     : FontWeight.w500,
@@ -393,7 +406,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (sheetContext) {
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+            padding: EdgeInsets.fromLTRB(20.sw, 16.sh, 20.sw, 24.sh),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -401,39 +414,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   'Pilih Badge',
                   style: GoogleFonts.lora(
-                    fontSize: 18,
+                    fontSize: 18.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.sh),
                 Text(
                   'Pilih salah satu badge yang sudah Anda raih untuk ditampilkan di profil.',
                   style: GoogleFonts.manrope(
-                    fontSize: 13,
+                    fontSize: 13.sf,
                     color: AppColors.greyText,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.sh),
                 if (currentFeatured != null)
                   OutlinedButton.icon(
                     onPressed: () async {
                       Navigator.pop(sheetContext);
                       await _saveFeaturedBadge(user, null);
                     },
-                    icon: const Icon(Icons.clear_rounded, size: 18),
+                    icon: Icon(Icons.clear_rounded, size: 18.sw),
                     label: const Text('Hapus badge pajangan'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.greyText,
                       side: const BorderSide(color: AppColors.border),
                     ),
                   ),
-                if (currentFeatured != null) const SizedBox(height: 12),
+                if (currentFeatured != null) SizedBox(height: 12.sh),
                 Flexible(
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemCount: badges.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 8),
+                    separatorBuilder: (_, _) => SizedBox(height: 8.sh),
                     itemBuilder: (context, index) {
                       final badge = badges[index];
                       final isSelected = badge == currentFeatured;
@@ -448,9 +461,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 12,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.sw,
+                            vertical: 12.sh,
                           ),
                           decoration: BoxDecoration(
                             color: style.background,
@@ -468,7 +481,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 BadgeUtils.iconFor(badge),
                                 color: style.foreground,
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: 12.sw),
                               Expanded(
                                 child: Text(
                                   badge,
@@ -500,6 +513,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       return const Center(child: Text('Akun belum masuk'));
@@ -538,7 +552,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             : 1.0;
 
         return ListView(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+          padding: EdgeInsets.symmetric(vertical: 40.sh, horizontal: 24.sw),
           children: [
             Center(
               child: Column(
@@ -547,25 +561,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     avatarId: avatarId,
                     onTap: () => _showAvatarPicker(user, avatarId),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.sh),
                   Text(
                     displayName,
                     style: GoogleFonts.lora(
-                      fontSize: 22,
+                      fontSize: 22.sf,
                       fontWeight: FontWeight.bold,
                       color: AppColors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.sh),
                   Text(
                     levelTitle,
                     style: GoogleFonts.manrope(
-                      fontSize: 14,
+                      fontSize: 14.sf,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.sh),
                   if (featuredBadge != null) ...[
                     _buildFeaturedBadgeRow(
                       badge: featuredBadge,
@@ -579,7 +593,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               featuredBadge: featuredBadge,
                             ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.sh),
                   ],
                   if (badges.isNotEmpty && featuredBadge == null)
                     _buildSelectBadgeButton(
@@ -594,9 +608,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.sh),
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.sw),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -614,12 +628,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text(
                     'Progress Anda',
                     style: GoogleFonts.lora(
-                      fontSize: 18,
+                      fontSize: 18.sf,
                       fontWeight: FontWeight.bold,
                       color: AppColors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.sh),
                   Row(
                     children: [
                       Expanded(
@@ -629,15 +643,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Text(
                               'Level',
                               style: GoogleFonts.manrope(
-                                fontSize: 12,
+                                fontSize: 12.sf,
                                 color: AppColors.greyText,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6.sh),
                             Text(
                               '$level',
                               style: GoogleFonts.lora(
-                                fontSize: 32,
+                                fontSize: 32.sf,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.secondaryText,
                               ),
@@ -652,15 +666,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Text(
                               'XP',
                               style: GoogleFonts.manrope(
-                                fontSize: 12,
+                                fontSize: 12.sf,
                                 color: AppColors.greyText,
                               ),
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6.sh),
                             Text(
                               '$xp',
                               style: GoogleFonts.lora(
-                                fontSize: 32,
+                                fontSize: 32.sf,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.secondaryText,
                               ),
@@ -670,23 +684,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.sh),
                   LinearProgressIndicator(
                     value: progress,
                     color: AppColors.primary,
                     backgroundColor: AppColors.border,
-                    minHeight: 10,
+                    minHeight: 10.sh,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.sh),
                   Text(
                     'Menuju level ${level + 1} • ${xp - currentLevelXp} / ${nextLevelXp - currentLevelXp} XP',
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 13.sf,
                       color: AppColors.greyText,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.sh),
                   Text(
                     'Koleksi Badge',
                     style: GoogleFonts.manrope(
@@ -694,19 +708,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: AppColors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.sh),
                   if (badges.isEmpty)
                     Text(
                       'Belum ada badge. Selesaikan kuis untuk dapat badge pertama!',
                       style: GoogleFonts.poppins(
-                        fontSize: 13,
+                        fontSize: 13.sf,
                         color: AppColors.greyText,
                       ),
                     )
                   else
                     Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                      spacing: 10.sw,
+                      runSpacing: 10.sh,
                       children: badges.map((badge) {
                         final isFeatured = badge == featuredBadge;
                         return BadgeUtils.buildBadgeChip(
@@ -725,9 +739,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.sh),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              padding: EdgeInsets.symmetric(vertical: 8.sh, horizontal: 8.sw),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -742,12 +756,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.sw,
+                      vertical: 8.sh,
                     ),
                     leading: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sw),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(10),
@@ -767,7 +781,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     subtitle: Text(
                       'Nama pengguna, tentang app, hapus akun',
                       style: GoogleFonts.manrope(
-                        fontSize: 13,
+                        fontSize: 13.sf,
                         color: AppColors.greyText,
                       ),
                     ),
@@ -791,12 +805,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     endIndent: 16,
                   ),
                   ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.sw,
+                      vertical: 8.sh,
                     ),
                     leading: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sw),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(10),

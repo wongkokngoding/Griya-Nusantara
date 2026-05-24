@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'app_colors.dart';
 import 'quiz_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class HouseDetailScreen extends StatefulWidget {
   final String title;
@@ -60,7 +61,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
   }
 
   /// Memuat fakta menarik dari Firestore berdasarkan judul rumah adat.
-  /// Struktur Firestore: koleksi 'houses', field 'funFacts' berupa List<String>
+  /// Struktur Firestore: koleksi 'houses', field 'funFacts' berupa `List<String>`
   Future<void> _loadFunFacts() async {
     try {
       final snapshot = await FirebaseFirestore.instance
@@ -218,6 +219,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -230,7 +232,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
               // 1. Bagian Atas (Header & Hero Image)
               // ==========================================
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.sw),
                 child: Stack(
                   children: [
                     Hero(
@@ -240,13 +242,13 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                         child: Image.network(
                           widget.imageUrl,
                           width: double.infinity,
-                          height: 320,
+                          height: 320.sh,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               Container(
-                                height: 320,
+                                height: 320.sh,
                                 color: Colors.grey.shade300,
-                                child: const Icon(Icons.broken_image, size: 50),
+                                child: Icon(Icons.broken_image, size: 50.sw),
                               ),
                         ),
                       ),
@@ -254,8 +256,8 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
 
                     // Tombol Kembali
                     Positioned(
-                      top: 16,
-                      left: 16,
+                      top: 16.sh,
+                      left: 16.sw,
                       child: _buildCircleButton(
                         icon: Icons.arrow_back_rounded,
                         onTap: () => Navigator.pop(context),
@@ -264,8 +266,8 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
 
                     // Ikon Favorit
                     Positioned(
-                      top: 16,
-                      right: 16,
+                      top: 16.sh,
+                      right: 16.sw,
                       child: _buildCircleButton(
                         icon: isFavorite
                             ? Icons.favorite
@@ -284,24 +286,24 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
               // 2. Bagian Identitas (Informasi Singkat)
               // ==========================================
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.sw),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.title,
                       style: GoogleFonts.lora(
-                        fontSize: 24,
+                        fontSize: 24.sf,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondaryText,
                         height: 1.2,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.sh),
 
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: 8.sw,
+                      runSpacing: 8.sh,
                       children: [
                         _buildChip(widget.location, Icons.location_on_rounded),
                         _buildChip(
@@ -311,9 +313,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32.sh),
                     const Divider(height: 1, thickness: 1),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.sh),
 
                     // ==========================================
                     // 3. Filosofi & Arsitektur
@@ -321,33 +323,33 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                     Text(
                       'Filosofi & Arsitektur',
                       style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: 16.sf,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondaryText,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.sh),
 
                     Text(
                       widget.description,
                       textAlign: TextAlign.justify,
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 14.sf,
                         height: 1.8,
                         color: AppColors.secondaryText.withValues(alpha: 0.85),
                       ),
                     ),
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32.sh),
                     const Divider(height: 1, thickness: 1),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.sh),
 
                     // ==========================================
                     // 4. Seksi Fakta Menarik (BARU)
                     // ==========================================
                     _buildFunFactsSection(),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40.sh),
                   ],
                 ),
               ),
@@ -360,7 +362,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
       // 5. Tombol Aksi (Tes Kuis per daerah)
       // ==========================================
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+        padding: EdgeInsets.fromLTRB(24.sw, 16.sh, 24.sw, 24.sh),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -383,7 +385,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 16.sh),
               elevation: 4,
               shadowColor: AppColors.primary.withValues(alpha: 0.4),
               shape: RoundedRectangleBorder(
@@ -393,14 +395,14 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.school_rounded, color: Colors.white, size: 20),
-                const SizedBox(width: 10),
+                Icon(Icons.school_rounded, color: Colors.white, size: 20.sw),
+                SizedBox(width: 10.sw),
                 Text(
                   widget.regionName.isNotEmpty
                       ? 'Tes Kuis ${widget.regionName}'
                       : 'Tes Kuis',
                   style: GoogleFonts.poppins(
-                    fontSize: 15,
+                    fontSize: 15.sf,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
@@ -423,35 +425,35 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.sw),
               decoration: BoxDecoration(
                 color: AppColors.accent.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.auto_awesome_rounded,
                 color: AppColors.accent,
-                size: 18,
+                size: 18.sw,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.sw),
             Text(
               'Fakta Menarik',
               style: GoogleFonts.poppins(
-                fontSize: 16,
+                fontSize: 16.sf,
                 fontWeight: FontWeight.bold,
                 color: AppColors.secondaryText,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.sh),
 
         if (isFunFactsLoading)
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              child: CircularProgressIndicator(
+              padding: EdgeInsets.symmetric(vertical: 16.sh),
+              child: const CircularProgressIndicator(
                 color: AppColors.primary,
                 strokeWidth: 2,
               ),
@@ -461,7 +463,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           Text(
             'Belum ada fakta menarik tersedia.',
             style: GoogleFonts.poppins(
-              fontSize: 13,
+              fontSize: 13.sf,
               color: AppColors.greyText,
             ),
           )
@@ -491,8 +493,8 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
     final border = borderColors[index % borderColors.length];
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 12.sh),
+      padding: EdgeInsets.all(16.sw),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(14),
@@ -502,9 +504,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 2),
-            width: 24,
-            height: 24,
+            margin: EdgeInsets.only(top: 2.sh),
+            width: 24.sw,
+            height: 24.sw,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: border.withValues(alpha: 0.4),
@@ -513,18 +515,18 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
             child: Text(
               '${index + 1}',
               style: GoogleFonts.poppins(
-                fontSize: 12,
+                fontSize: 12.sf,
                 fontWeight: FontWeight.bold,
                 color: AppColors.secondaryText,
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.sw),
           Expanded(
             child: Text(
               fact,
               style: GoogleFonts.poppins(
-                fontSize: 13,
+                fontSize: 13.sf,
                 height: 1.7,
                 color: AppColors.secondaryText.withValues(alpha: 0.88),
               ),
@@ -544,7 +546,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.sw),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.9),
           shape: BoxShape.circle,
@@ -556,7 +558,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
             ),
           ],
         ),
-        child: Icon(icon, size: 22, color: iconColor),
+        child: Icon(icon, size: 22.sw, color: iconColor),
       ),
     );
   }
@@ -564,7 +566,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
   // Helper chip badge
   Widget _buildChip(String label, IconData icon) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 12.sw, vertical: 8.sh),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(20),
@@ -573,12 +575,12 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.primary),
-          const SizedBox(width: 6),
+          Icon(icon, size: 14.sw, color: AppColors.primary),
+          SizedBox(width: 6.sw),
           Text(
             label,
             style: GoogleFonts.poppins(
-              fontSize: 11,
+              fontSize: 11.sf,
               fontWeight: FontWeight.w600,
               color: AppColors.primary,
             ),

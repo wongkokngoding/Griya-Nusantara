@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:griyanusantara/app_colors.dart';
+import 'responsive_helper.dart';
 
 /// Variasi warna turunan palet [AppColors] untuk badge.
 class _BadgePalette {
@@ -91,20 +92,20 @@ class BadgeUtils {
           title: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.sw),
                 decoration: BoxDecoration(
                   color: style.background,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: style.border),
                 ),
-                child: Icon(iconFor(badge), color: style.foreground, size: 28),
+                child: Icon(iconFor(badge), color: style.foreground, size: 28.sw),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.sw),
               Expanded(
                 child: Text(
                   badge,
                   style: GoogleFonts.lora(
-                    fontSize: 17,
+                    fontSize: 17.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
@@ -115,7 +116,7 @@ class BadgeUtils {
           content: Text(
             descriptionFor(badge),
             style: GoogleFonts.manrope(
-              fontSize: 14,
+              fontSize: 14.sf,
               height: 1.5,
               color: AppColors.greyText,
             ),
@@ -127,6 +128,7 @@ class BadgeUtils {
                   child: Text(
                     'Tutup',
                     style: GoogleFonts.manrope(
+                      fontSize: 14.sf,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
@@ -195,7 +197,7 @@ class BadgeUtils {
   }) {
     final style = styleFor(badge);
     final chip = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 12.sw, vertical: 10.sh),
       decoration: BoxDecoration(
         color: style.background,
         borderRadius: BorderRadius.circular(10),
@@ -207,14 +209,14 @@ class BadgeUtils {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(iconFor(badge), size: 20, color: style.foreground),
-          const SizedBox(width: 8),
+          Icon(iconFor(badge), size: 20.sw, color: style.foreground),
+          SizedBox(width: 8.sw),
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 140),
+            constraints: BoxConstraints(maxWidth: 140.sw),
             child: Text(
               badge,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 12.sf,
                 fontWeight: FontWeight.w600,
                 color: style.foreground,
               ),
@@ -223,8 +225,8 @@ class BadgeUtils {
             ),
           ),
           if (isFeatured) ...[
-            const SizedBox(width: 6),
-            Icon(Icons.push_pin_rounded, size: 16, color: style.foreground),
+            SizedBox(width: 6.sw),
+            Icon(Icons.push_pin_rounded, size: 16.sw, color: style.foreground),
           ],
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
+import 'utils/responsive_helper.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -48,6 +49,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9F8),
       appBar: AppBar(
@@ -60,30 +62,30 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.sw),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20.sh),
                 // Logo
-                Image.asset('assets/images/logo.png', width: 100, height: 100),
-                const SizedBox(height: 16),
+                Image.asset('assets/images/logo.png', width: 100.sw, height: 100.sw),
+                SizedBox(height: 16.sh),
                 // Title
                 Text(
                   'Griya Nusantara',
                   style: GoogleFonts.lora(
-                    fontSize: 28,
+                    fontSize: 28.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 48),
+                SizedBox(height: 48.sh),
                 
                 // Card Container
                 Container(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(24.sw),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -101,31 +103,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Text(
                         'Lupa Kata Sandi',
                         style: GoogleFonts.manrope(
-                          fontSize: 24,
+                          fontSize: 24.sf,
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       Text(
                         'Masukkan email Anda untuk menerima link reset kata sandi',
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           color: AppColors.greyText,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32.sh),
                       
                       // Email Field
                       Text(
                         'Email',
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           fontWeight: FontWeight.w600,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
@@ -141,9 +143,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           hintText: 'Masukkan email anda',
                           hintStyle: TextStyle(
                             color: AppColors.greyText.withValues(alpha: 0.5),
-                            fontSize: 14,
+                            fontSize: 14.sf,
                           ),
-                          prefixIcon: const Icon(Icons.mail_outline, color: AppColors.greyText),
+                          prefixIcon: Icon(
+                            Icons.mail_outline,
+                            color: AppColors.greyText,
+                            size: 20.sw,
+                          ),
                           filled: true,
                           fillColor: AppColors.white,
                           border: OutlineInputBorder(
@@ -156,12 +162,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 32),
-
+                      SizedBox(height: 32.sh),
+ 
                       // Reset Button
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 56.sh,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _resetPassword,
                           style: ElevatedButton.styleFrom(
@@ -176,7 +182,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               : Text(
                                   'Kirim Link Reset',
                                   style: GoogleFonts.manrope(
-                                    fontSize: 16,
+                                    fontSize: 16.sf,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.white,
                                   ),

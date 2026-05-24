@@ -6,6 +6,7 @@ import 'app_colors.dart';
 import 'constants/app_info.dart';
 import 'login_screen.dart';
 import 'theme/app_text_styles.dart';
+import 'utils/responsive_helper.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -90,28 +91,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: Text('Tentang Aplikasi', style: AppTextStyles.loraBoldSecondary),
+          title: Text(
+            'Tentang Aplikasi',
+            style: AppTextStyles.loraBoldSecondary.copyWith(fontSize: 18.sf),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.account_balance_rounded,
-                size: 48,
+                size: 48.sw,
                 color: AppColors.primary,
               ),
-              const SizedBox(height: 16),
-              Text(AppInfo.name, style: AppTextStyles.loraBoldSecondary20),
-              const SizedBox(height: 6),
+              SizedBox(height: 16.sh),
+              Text(
+                AppInfo.name,
+                style: AppTextStyles.loraBoldSecondary20.copyWith(fontSize: 20.sf),
+              ),
+              SizedBox(height: 6.sh),
               Text(
                 'Versi ${AppInfo.versionLabel}',
-                style: AppTextStyles.manropeBody13Grey,
+                style: AppTextStyles.manropeBody13Grey.copyWith(fontSize: 13.sf),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.sh),
               Text(
                 'Aplikasi edukasi rumah adat Indonesia.',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.manropeBody.copyWith(
-                  fontSize: 14,
+                  fontSize: 14.sf,
                   height: 1.5,
                 ),
               ),
@@ -120,7 +127,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: Text('Tutup', style: AppTextStyles.manropeBoldPrimary),
+              child: Text(
+                'Tutup',
+                style: AppTextStyles.manropeBoldPrimary.copyWith(fontSize: 14.sf),
+              ),
             ),
           ],
         );
@@ -136,12 +146,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: Text('Hapus Akun', style: AppTextStyles.loraBoldSecondary),
+              title: Text(
+                'Hapus Akun',
+                style: AppTextStyles.loraBoldSecondary.copyWith(fontSize: 18.sf),
+              ),
               content: Text(
                 'Apakah Anda yakin ingin menghapus akun ini? '
                 'Semua data profil akan dihapus dan tindakan ini tidak dapat dibatalkan.',
                 style: AppTextStyles.manropeBody.copyWith(
-                  fontSize: 14,
+                  fontSize: 14.sf,
                   height: 1.5,
                 ),
               ),
@@ -151,6 +164,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Text(
                     'Batal',
                     style: AppTextStyles.manropeSemi14.copyWith(
+                      fontSize: 14.sf,
                       color: AppColors.greyText,
                     ),
                   ),
@@ -189,7 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SnackBar(
                                   content: Text(
                                     errorMsg,
-                                    style: AppTextStyles.manropeBody,
+                                    style: AppTextStyles.manropeBody.copyWith(fontSize: 14.sf),
                                   ),
                                   backgroundColor: Colors.red,
                                 ),
@@ -202,7 +216,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SnackBar(
                                   content: Text(
                                     'Terjadi kesalahan: $e',
-                                    style: AppTextStyles.manropeBody,
+                                    style: AppTextStyles.manropeBody.copyWith(fontSize: 14.sf),
                                   ),
                                   backgroundColor: Colors.red,
                                 ),
@@ -225,6 +239,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : Text(
                           'Hapus',
                           style: AppTextStyles.manropeBold.copyWith(
+                            fontSize: 14.sf,
                             color: Colors.white,
                           ),
                         ),
@@ -247,31 +262,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Color? titleColor,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.sw, vertical: 8.sh),
       leading: Container(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.sw),
         decoration: BoxDecoration(
           color: iconBg,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, color: iconColor),
+        child: Icon(icon, color: iconColor, size: 24.sw),
       ),
       title: Text(
         title,
         style: AppTextStyles.manropeBold.copyWith(
+          fontSize: 14.sf,
           color: titleColor ?? AppColors.secondaryText,
         ),
       ),
       subtitle: subtitle != null
-          ? Text(subtitle, style: AppTextStyles.manropeBody13Grey)
+          ? Text(
+              subtitle,
+              style: AppTextStyles.manropeBody13Grey.copyWith(fontSize: 13.sf),
+            )
           : null,
-      trailing: const Icon(Icons.chevron_right, color: AppColors.greyText),
+      trailing: Icon(Icons.chevron_right, color: AppColors.greyText, size: 24.sw),
       onTap: onTap,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
@@ -280,18 +300,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: AppColors.background,
         elevation: 0,
         foregroundColor: AppColors.secondaryText,
-        title: Text('Pengaturan', style: AppTextStyles.loraBoldSecondary),
+        title: Text(
+          'Pengaturan',
+          style: AppTextStyles.loraBoldSecondary.copyWith(fontSize: 20.sf),
+        ),
       ),
       body: user == null
           ? Center(
-              child: Text('Akun belum masuk', style: AppTextStyles.manropeBody),
+              child: Text(
+                'Akun belum masuk',
+                style: AppTextStyles.manropeBody.copyWith(fontSize: 14.sf),
+              ),
             )
           : _isLoadingUser
           ? const Center(
               child: CircularProgressIndicator(color: AppColors.primary),
             )
           : ListView(
-              padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+              padding: EdgeInsets.fromLTRB(24.sw, 8.sh, 24.sw, 32.sh),
               children: [
                 _settingsCard(
                   children: [
@@ -319,42 +345,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.sh),
                 Text(
                   'Akun',
                   style: AppTextStyles.manropeSemi14.copyWith(
-                    fontSize: 13,
+                    fontSize: 13.sf,
                     color: AppColors.greyText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.sh),
                 _settingsCard(
                   children: [
                     ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 4,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.sw,
+                        vertical: 4.sh,
                       ),
                       leading: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10.sw),
                         decoration: BoxDecoration(
                           color: AppColors.border.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.mail_outline_rounded,
                           color: AppColors.greyText,
+                          size: 24.sw,
                         ),
                       ),
                       title: Text(
                         'Email',
                         style: AppTextStyles.manropeBold.copyWith(
+                          fontSize: 14.sf,
                           color: AppColors.secondaryText,
                         ),
                       ),
                       subtitle: Text(
                         user.email ?? '-',
-                        style: AppTextStyles.manropeBody13Grey,
+                        style: AppTextStyles.manropeBody13Grey.copyWith(fontSize: 13.sf),
                       ),
                     ),
                     const Divider(
@@ -463,25 +491,32 @@ class _EditUsernameDialogState extends State<_EditUsernameDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Edit Nama Pengguna', style: AppTextStyles.loraBoldSecondary),
+      title: Text(
+        'Edit Nama Pengguna',
+        style: AppTextStyles.loraBoldSecondary.copyWith(fontSize: 18.sf),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Nama Pengguna', style: AppTextStyles.manropeSemi14),
-            const SizedBox(height: 8),
+            Text(
+              'Nama Pengguna',
+              style: AppTextStyles.manropeSemi14.copyWith(fontSize: 14.sf),
+            ),
+            SizedBox(height: 8.sh),
             TextFormField(
               controller: _controller,
               enabled: !_isSaving,
               textCapitalization: TextCapitalization.words,
-              style: AppTextStyles.manropeField14,
+              style: AppTextStyles.manropeField14.copyWith(fontSize: 14.sf),
               decoration: InputDecoration(
                 hintText: 'Masukkan nama Anda',
-                hintStyle: AppTextStyles.manropeHint14,
+                hintStyle: AppTextStyles.manropeHint14.copyWith(fontSize: 14.sf),
                 filled: true,
                 fillColor: AppColors.white,
+                contentPadding: EdgeInsets.symmetric(horizontal: 16.sw, vertical: 12.sh),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: AppColors.border),
@@ -497,7 +532,7 @@ class _EditUsernameDialogState extends State<_EditUsernameDialog> {
                     width: 2,
                   ),
                 ),
-                errorStyle: AppTextStyles.manropeError12,
+                errorStyle: AppTextStyles.manropeError12.copyWith(fontSize: 12.sf),
               ),
               validator: (value) {
                 final trimmed = value?.trim() ?? '';
@@ -516,6 +551,7 @@ class _EditUsernameDialogState extends State<_EditUsernameDialog> {
           child: Text(
             'Batal',
             style: AppTextStyles.manropeSemi14.copyWith(
+              fontSize: 14.sf,
               color: AppColors.greyText,
             ),
           ),
@@ -538,7 +574,10 @@ class _EditUsernameDialogState extends State<_EditUsernameDialog> {
                     strokeWidth: 2,
                   ),
                 )
-              : Text('Simpan', style: AppTextStyles.manropeBold),
+              : Text(
+                  'Simpan',
+                  style: AppTextStyles.manropeBold.copyWith(fontSize: 14.sf),
+                ),
         ),
       ],
     );

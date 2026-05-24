@@ -5,6 +5,7 @@ import 'app_colors.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 import 'forgot_password_screen.dart';
+import 'utils/responsive_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -75,38 +76,39 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ResponsiveHelper.init(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.sw, vertical: 48.sh),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo
-                Image.asset('assets/images/logo.png', width: 100, height: 100),
-                const SizedBox(height: 16),
+                Image.asset('assets/images/logo.png', width: 100.sw, height: 100.sw),
+                SizedBox(height: 16.sh),
                 // Title
                 Text(
                   'Griya Nusantara',
                   style: GoogleFonts.lora(
-                    fontSize: 28,
+                    fontSize: 28.sf,
                     fontWeight: FontWeight.bold,
                     color: AppColors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.sh),
                 // Tagline
-                const Text(
+                Text(
                   'Rumah Adat Warisan Budaya',
-                  style: TextStyle(fontSize: 14, color: AppColors.greyText),
+                  style: TextStyle(fontSize: 14.sf, color: AppColors.greyText),
                 ),
-                const SizedBox(height: 48),
+                SizedBox(height: 48.sh),
                 // Card Container
                 Container(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(24.sw),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -124,31 +126,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Masuk',
                         style: GoogleFonts.manrope(
-                          fontSize: 28,
+                          fontSize: 28.sf,
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       Text(
                         'Masuk untuk memulai',
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           color: AppColors.greyText,
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15.sh),
 
                       // Email Field
                       Text(
                         'Email',
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           fontWeight: FontWeight.w600,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
@@ -164,11 +166,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Masukkan email anda',
                           hintStyle: TextStyle(
                             color: AppColors.greyText.withValues(alpha: 0.5),
-                            fontSize: 14,
+                            fontSize: 14.sf,
                           ),
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.person_outline,
                             color: AppColors.greyText,
+                            size: 20.sw,
                           ),
                           filled: true,
                           fillColor: AppColors.white,
@@ -186,18 +189,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15.sh),
 
                       // Password Field
                       Text(
                         'Kata Sandi',
                         style: GoogleFonts.manrope(
-                          fontSize: 14,
+                          fontSize: 14.sf,
                           fontWeight: FontWeight.w600,
                           color: AppColors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.sh),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
@@ -211,11 +214,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Masukkan kata sandi',
                           hintStyle: TextStyle(
                             color: AppColors.greyText.withValues(alpha: 0.5),
-                            fontSize: 14,
+                            fontSize: 14.sf,
                           ),
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.lock_outline,
                             color: AppColors.greyText,
+                            size: 20.sw,
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -223,6 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ? Icons.visibility_off_outlined
                                   : Icons.visibility_outlined,
                               color: AppColors.greyText,
+                              size: 20.sw,
                             ),
                             onPressed: () {
                               setState(() {
@@ -246,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15.sh),
 
                       // Forgot Password
                       Align(
@@ -271,17 +276,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: GoogleFonts.manrope(
                               color: AppColors.primary,
                               fontWeight: FontWeight.w600,
-                              fontSize: 13,
+                              fontSize: 13.sf,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 25),
+                      SizedBox(height: 25.sh),
 
                       // Login Button
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 56.sh,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _login,
                           style: ElevatedButton.styleFrom(
@@ -298,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               : Text(
                                   'Masuk',
                                   style: GoogleFonts.manrope(
-                                    fontSize: 16,
+                                    fontSize: 16.sf,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.white,
                                   ),
@@ -308,13 +313,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.sh),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Belum punya akun? ',
-                      style: TextStyle(color: AppColors.secondaryText),
+                      style: TextStyle(
+                        fontSize: 14.sf,
+                        color: AppColors.secondaryText,
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -328,6 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Daftar',
                         style: GoogleFonts.manrope(
+                          fontSize: 14.sf,
                           color: AppColors.primary,
                           fontWeight: FontWeight.bold,
                         ),
