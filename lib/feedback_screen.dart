@@ -26,7 +26,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   final _emailController = TextEditingController();
   final _feedbackController = TextEditingController();
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _isSubmitting = false;
 
   @override

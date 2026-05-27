@@ -110,7 +110,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo
-                Image.asset('assets/images/logo.png', width: 100.sw, height: 100.sw),
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 100.sw,
+                  height: 100.sw,
+                ),
                 SizedBox(height: 16.sh),
                 // Title
                 Text(
@@ -394,7 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       // Register Button
                       SizedBox(
                         width: double.infinity,
-                        height: 56.sh,
+                        height: 48.sh,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _register,
                           style: ElevatedButton.styleFrom(

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🏛️ Griya Nusantara
 
 **Griya Nusantara** adalah aplikasi edukasi budaya berbasis mobile (Flutter) yang dirancang untuk mengenalkan keanekaragaman rumah adat di Indonesia secara interaktif, modern, dan menyenangkan. Aplikasi ini menggunakan elemen **gamifikasi** (XP, Level, dan Badge) untuk memotivasi pengguna dalam mempelajari sejarah, arsitektur, dan filosofi di balik setiap rumah adat di berbagai wilayah Indonesia.
@@ -56,14 +55,15 @@ Setiap kali menyelesaikan kuis, pengguna akan menerima poin pengalaman (XP) yang
 * **Level [N] Achieved**: Meraih tingkat level tertentu.
 * **Penyematan Lencana (Featured Badge)**: Pengguna dapat memilih satu lencana kebanggaan mereka untuk dipasang (pinned) secara menonjol di halaman profil.
 
-### 📚 7. Perpustakaan Favorit (Library)
+### 📚 7. Koleksi Favorit (Koleksi)
 * Menampilkan daftar rumah adat yang ditandai sebagai favorit oleh pengguna.
 * Data disinkronkan secara real-time per pengguna melalui sub-koleksi Firestore.
 
-### 👤 8. Kustomisasi Profil & Pengaturan
+### 👤 8. Kustomisasi Profil, Pengaturan & Umpan Balik (Feedback)
 * **Avatar Picker**: Memilih salah satu dari 8 karakter avatar unik nusantara untuk mewakili profil pengguna.
 * **Melacak Kemajuan**: Progress bar XP yang interaktif dan informasi gelar tingkatan level.
 * **Edit Nama & Hapus Akun**: Dukungan penuh untuk pengelolaan data pribadi pengguna secara mandiri.
+* **Saran dan Masukan (User Feedback)**: Halaman khusus yang terhubung dari menu pengaturan bagi pengguna untuk menyampaikan feedback. Kolom Nama dan Email terisi secara otomatis dari database Firebase, dan masukan disimpan langsung ke Firestore pada koleksi `feedbacks`.
 
 ---
 
@@ -92,8 +92,10 @@ lib/
 ├── regions_screen.dart            # Halaman Peta Indonesia Interaktif (SVG + Pulsing Pin)
 ├── house_detail_screen.dart       # Halaman detail rumah adat, filosofi, & fakta menarik
 ├── quiz_menu_screen.dart          # Halaman menu pemilihan kategori kuis & papan skor
+├── quiz_confirmation_screen.dart  # Layar konfirmasi kuis sebelum bermain (NEW)
 ├── quiz_screen.dart               # Layar permainan kuis interaktif (Timer, Skor, Soal)
-├── library_screen.dart            # Halaman daftar rumah adat favorit pengguna
+├── library_screen.dart            # Halaman daftar rumah adat favorit pengguna (Koleksi)
+├── feedback_screen.dart           # Halaman saran dan masukan pengguna (Feedback) (NEW)
 ├── profile_screen.dart            # Halaman profil, progres XP, & koleksi lencana (badge)
 ├── settings_screen.dart           # Halaman pengaturan akun (edit nama, info app, hapus akun)
 │
@@ -238,6 +240,3 @@ Proyek ini dibuat untuk memenuhi Ujian Akhir Semester (UAS) pada mata kuliah Pem
 
 ---
 *Selamat belajar dan melestarikan budaya bangsa melalui **Griya Nusantara**!* 🏛️🇮🇩
-=======
-# Griya-Nusantara
->>>>>>> 98f9c3f412ad4b5aecbc99056615b204768bffa3
