@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -50,8 +49,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     );
     _questionSlideAnim =
         Tween<Offset>(begin: const Offset(0.05, 0), end: Offset.zero).animate(
-      CurvedAnimation(parent: _questionAnimController, curve: Curves.easeOut),
-    );
+          CurvedAnimation(
+            parent: _questionAnimController,
+            curve: Curves.easeOut,
+          ),
+        );
     _fetchQuestions();
   }
 
@@ -305,9 +307,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   Color _getOptionBgColor(int index) {
     if (!isAnswered) return AppColors.white;
     if (index == selectedAnswerIndex) {
-      return isCorrect
-          ? const Color(0xFFE8F5E9)
-          : const Color(0xFFFFEBEE);
+      return isCorrect ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE);
     }
     return AppColors.white;
   }
@@ -433,7 +433,10 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
                             // Pilihan Ganda
                             ...List.generate(question.options.length, (index) {
-                              return _buildOptionTile(index, question.options[index]);
+                              return _buildOptionTile(
+                                index,
+                                question.options[index],
+                              );
                             }),
 
                             SizedBox(height: 16.sh),
@@ -455,13 +458,16 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 duration: const Duration(milliseconds: 350),
                 transitionBuilder: (child, animation) {
                   return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.3),
-                      end: Offset.zero,
-                    ).animate(CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOut,
-                    )),
+                    position:
+                        Tween<Offset>(
+                          begin: const Offset(0, -0.3),
+                          end: Offset.zero,
+                        ).animate(
+                          CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.easeOut,
+                          ),
+                        ),
                     child: FadeTransition(opacity: animation, child: child),
                   );
                 },
@@ -545,10 +551,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               ),
               // Score indicator
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 14.sw, vertical: 8.sh),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 14.sw,
+                  vertical: 8.sh,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.25),
                   ),
@@ -556,7 +565,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.star_rounded, color: AppColors.accent, size: 18),
+                    const Icon(
+                      Icons.star_rounded,
+                      color: AppColors.accent,
+                      size: 18,
+                    ),
                     SizedBox(width: 5.sw),
                     Text(
                       '$correctAnswersCount / ${questions.length}',
@@ -589,8 +602,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                       color: isDone
                           ? AppColors.accent
                           : isCurrent
-                              ? Colors.white
-                              : Colors.white.withValues(alpha: 0.2),
+                          ? Colors.white
+                          : Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -603,15 +616,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     );
   }
 
-  
-
   // ── QUESTION CARD ──
   Widget _buildQuestionCard(QuizQuestion question) {
     return Container(
       padding: EdgeInsets.all(20.sw),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.border.withValues(alpha: 0.6)),
         boxShadow: [
           BoxShadow(
@@ -631,7 +642,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               gradient: const LinearGradient(
                 colors: [AppColors.primary, Color(0xFF2D6A4F)],
               ),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               'Soal ${currentQuestionIndex + 1}',
@@ -671,7 +682,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         color: Colors.transparent,
         child: InkWell(
           onTap: isAnswered ? null : () => _onAnswerSelected(index),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(10),
           splashColor: AppColors.primary.withValues(alpha: 0.08),
           highlightColor: AppColors.primary.withValues(alpha: 0.04),
           child: AnimatedContainer(
@@ -680,7 +691,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             padding: EdgeInsets.symmetric(horizontal: 16.sw, vertical: 16.sh),
             decoration: BoxDecoration(
               color: _getOptionBgColor(index),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: _getOptionBorderColor(index),
                 width: isSelected ? 2 : 1.5,
@@ -694,10 +705,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   ),
                 if (isSelected)
                   BoxShadow(
-                    color: (isCorrect
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFFE53935))
-                        .withValues(alpha: 0.15),
+                    color:
+                        (isCorrect
+                                ? const Color(0xFF4CAF50)
+                                : const Color(0xFFE53935))
+                            .withValues(alpha: 0.15),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -714,8 +726,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? (isCorrect
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFFE53935))
+                              ? const Color(0xFF4CAF50)
+                              : const Color(0xFFE53935))
                         : AppColors.primary.withValues(alpha: 0.08),
                     shape: BoxShape.circle,
                     border: isSelected
@@ -745,11 +757,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     optionText,
                     style: GoogleFonts.poppins(
                       fontSize: 14.sf,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                       color: isSelected
                           ? (isCorrect
-                              ? const Color(0xFF2E7D32)
-                              : const Color(0xFFC62828))
+                                ? const Color(0xFF2E7D32)
+                                : const Color(0xFFC62828))
                           : AppColors.secondaryText,
                       height: 1.4,
                     ),
@@ -775,17 +789,16 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               ? [const Color(0xFFE8F5E9), const Color(0xFFC8E6C9)]
               : [const Color(0xFFFFEBEE), const Color(0xFFFFCDD2)],
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: isCorrect
-              ? const Color(0xFF66BB6A)
-              : const Color(0xFFEF5350),
+          color: isCorrect ? const Color(0xFF66BB6A) : const Color(0xFFEF5350),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: (isCorrect ? const Color(0xFF4CAF50) : const Color(0xFFE53935))
-                .withValues(alpha: 0.12),
+            color:
+                (isCorrect ? const Color(0xFF4CAF50) : const Color(0xFFE53935))
+                    .withValues(alpha: 0.12),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -803,9 +816,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              isCorrect
-                  ? Icons.check_rounded
-                  : Icons.close_rounded,
+              isCorrect ? Icons.check_rounded : Icons.close_rounded,
               color: Colors.white,
               size: 22.sw,
             ),
@@ -850,9 +861,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         title: Text(
           'Keluar dari Kuis?',
           style: GoogleFonts.lora(
@@ -933,7 +942,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: AppColors.primary.withValues(alpha: 0.15),
@@ -957,8 +966,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
                   ),
                   child: Column(
@@ -993,7 +1002,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                               child: CircularProgressIndicator(
                                 value: scorePercent,
                                 strokeWidth: 8,
-                                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.2,
+                                ),
                                 valueColor: const AlwaysStoppedAnimation<Color>(
                                   AppColors.accent,
                                 ),
@@ -1049,28 +1060,31 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   child: Column(
                     children: [
                       // Level & XP row
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildStatCard(
-                              icon: Icons.trending_up_rounded,
-                              label: 'Level',
-                              value: '$level',
-                              subtitle: _levelTitle(level),
-                              color: AppColors.primary,
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.trending_up_rounded,
+                                label: 'Level',
+                                value: '$level',
+                                subtitle: _levelTitle(level),
+                                color: AppColors.primary,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 12.sw),
-                          Expanded(
-                            child: _buildStatCard(
-                              icon: Icons.star_rounded,
-                              label: 'Total XP',
-                              value: '$xp',
-                              subtitle: 'Experience',
-                              color: AppColors.accent,
+                            SizedBox(width: 12.sw),
+                            Expanded(
+                              child: _buildStatCard(
+                                icon: Icons.star_rounded,
+                                label: 'Total XP',
+                                value: '$xp',
+                                subtitle: 'Exp',
+                                color: AppColors.accent,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(height: 12.sh),
                       // Correct answers
@@ -1078,7 +1092,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                         icon: Icons.check_circle_rounded,
                         label: 'Jawaban Benar',
                         value: '$correctAnswersCount / ${questions.length}',
-                        subtitle: '${(correctAnswersCount * 100 / questions.length).round()}% akurasi',
+                        subtitle:
+                            '${(correctAnswersCount * 100 / questions.length).round()}% akurasi',
                         color: const Color(0xFF4CAF50),
                         isWide: true,
                       ),
@@ -1147,7 +1162,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 16.sh),
                           elevation: 0,
@@ -1174,7 +1189,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                               width: 1.5,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.symmetric(vertical: 16.sh),
                           ),
@@ -1225,10 +1240,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       padding: EdgeInsets.symmetric(horizontal: 16.sw, vertical: 14.sh),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: color.withValues(alpha: 0.15)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 40.sw,
@@ -1243,6 +1259,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   label,
@@ -1255,7 +1272,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 Text(
                   value,
                   style: GoogleFonts.poppins(
-                    fontSize: (isWide ? 18 : 22).sf,
+                    fontSize: 18.sf,
                     fontWeight: FontWeight.w800,
                     color: AppColors.secondaryText,
                     height: 1.2,

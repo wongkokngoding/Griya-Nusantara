@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'app_colors.dart';
+import 'quiz_confirmation_screen.dart';
 import 'quiz_screen.dart';
 import 'utils/responsive_helper.dart';
 
@@ -99,7 +100,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
 
       if (snapshot.docs.isNotEmpty) {
         final data = snapshot.docs.first.data();
-        
+
         // Load fun facts
         final rawFacts = data['funFacts'];
         List<String> loadedFacts = [];
@@ -119,11 +120,13 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           final List<MaterialDetail> materialsList = [];
           for (var item in rawMaterials) {
             if (item is Map) {
-              materialsList.add(MaterialDetail(
-                name: item['name'] ?? '',
-                description: item['description'] ?? '',
-                icon: _getIconData(item['icon']),
-              ));
+              materialsList.add(
+                MaterialDetail(
+                  name: item['name'] ?? '',
+                  description: item['description'] ?? '',
+                  icon: _getIconData(item['icon']),
+                ),
+              );
             }
           }
           loadedExtra = HouseExtraContent(
@@ -468,7 +471,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
   @override
   Widget build(BuildContext context) {
     ResponsiveHelper.init(context);
-    final extraContent = _firestoreExtraContent ?? _getExtraContent(widget.title, widget.location);
+    final extraContent =
+        _firestoreExtraContent ??
+        _getExtraContent(widget.title, widget.location);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -718,12 +723,17 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
         child: SafeArea(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QuizScreen(region: widget.regionName),
-                ),
-              );
+              final String region = widget.regionName.isNotEmpty
+                  ? widget.regionName
+                  : 'Random';
+              final Map<String, dynamic> category = {
+                'title': region == 'Random' ? 'Acak (Nusantara)' : region,
+                'region': region,
+                'icon': _getRegionIcon(region),
+                'color': _getRegionColor(region),
+                'desc': _getRegionDesc(region),
+              };
+              _showQuizSelectionConfirmation(context, category);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -812,9 +822,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10.sw),
+        padding: EdgeInsets.all(8.sw),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
+          color: Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
@@ -826,6 +836,252 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
         ),
         child: Icon(icon, size: 22.sw, color: iconColor),
       ),
+    );
+  }
+
+  IconData _getRegionIcon(String region) {
+    switch (region.toLowerCase()) {
+      case 'sumatera':
+        return Icons.map;
+      case 'jawa':
+        return Icons.account_balance;
+      case 'kalimantan':
+        return Icons.park;
+      case 'sulawesi':
+        return Icons.sailing;
+      case 'papua':
+        return Icons.landscape;
+      default:
+        return Icons.public;
+    }
+  }
+
+  Color _getRegionColor(String region) {
+    switch (region.toLowerCase()) {
+      case 'sumatera':
+        return Colors.green[700] ?? Colors.green;
+      case 'jawa':
+        return Colors.brown[600] ?? Colors.brown;
+      case 'kalimantan':
+        return Colors.teal[700] ?? Colors.teal;
+      case 'sulawesi':
+        return Colors.indigo[600] ?? Colors.indigo;
+      case 'papua':
+        return Colors.orange[800] ?? Colors.orange;
+      default:
+        return Colors.blueGrey;
+    }
+  }
+
+  String _getRegionDesc(String region) {
+    switch (region.toLowerCase()) {
+      case 'sumatera':
+        return 'Fokus pada rumah gadang, krong bade, dan arsitektur Sumatera lainnya.';
+      case 'jawa':
+        return 'Pelajari keanggunan Joglo, limasan, dan rumah adat Jawa.';
+      case 'kalimantan':
+        return 'Menjelajahi kearifan rumah Betang dan rumah panggung lainnya.';
+      case 'sulawesi':
+        return 'Uji pengetahuanmu tentang Tongkonan dan pesona Sulawesi.';
+      case 'papua':
+        return 'Temukan keunikan Honai dan arsitektur alam Papua.';
+      default:
+        return 'Uji pemahamanmu secara menyeluruh tentang arsitektur di seluruh Indonesia.';
+    }
+  }
+
+  void _showQuizSelectionConfirmation(
+    BuildContext context,
+    Map<String, dynamic> category,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        ResponsiveHelper.init(context);
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: 24.sw,
+            vertical: 24.sh,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.background,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppColors.border),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 24,
+                  offset: const Offset(0, 12),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.all(20.sw),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12.sw),
+                      decoration: BoxDecoration(
+                        color: (category['color'] as Color).withValues(
+                          alpha: 0.12,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        category['icon'],
+                        color: category['color'] as Color,
+                        size: 28.sw,
+                      ),
+                    ),
+                    SizedBox(width: 12.sw),
+                    Expanded(
+                      child: Text(
+                        'Konfirmasi Kuis',
+                        style: GoogleFonts.lora(
+                          fontSize: 20.sf,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.secondaryText,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      splashRadius: 22.sw,
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close_rounded),
+                      color: AppColors.secondaryText,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.sh),
+                Container(
+                  padding: EdgeInsets.all(18.sw),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        category['title'],
+                        style: GoogleFonts.lora(
+                          fontSize: 18.sf,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.secondaryText,
+                        ),
+                      ),
+                      SizedBox(height: 8.sh),
+                      Text(
+                        category['desc'],
+                        style: GoogleFonts.poppins(
+                          fontSize: 14.sf,
+                          color: AppColors.greyText,
+                          height: 1.5,
+                        ),
+                      ),
+                      SizedBox(height: 12.sh),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_rounded,
+                            size: 16.sw,
+                            color: AppColors.greyText,
+                          ),
+                          SizedBox(width: 6.sw),
+                          Text(
+                            category['region'],
+                            style: GoogleFonts.manrope(
+                              fontSize: 13.sf,
+                              color: AppColors.secondaryText,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 24.sh),
+                Text(
+                  'Yakin ingin mulai kuis ini sekarang?',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14.sf,
+                    color: AppColors.greyText,
+                  ),
+                ),
+                SizedBox(height: 24.sh),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52.sh,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuizConfirmationScreen(
+                            title: category['title'],
+                            region: category['region'],
+                            description: category['desc'],
+                            icon: category['icon'],
+                            color: category['color'] as Color,
+                          ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      'Mulai Kuis',
+                      style: GoogleFonts.manrope(
+                        fontSize: 16.sf,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.sh),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52.sh,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppColors.primary),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      'Kembali',
+                      style: GoogleFonts.manrope(
+                        fontSize: 15.sf,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
