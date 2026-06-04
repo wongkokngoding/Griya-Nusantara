@@ -160,7 +160,7 @@ Menyimpan riwayat nilai tertinggi kuis dari setiap pengguna untuk ditampilkan di
 }
 ```
 
-## 👤 Kontributor / Informasi Akademik
+## Kontributor / Informasi Akademik
 Proyek ini dibuat untuk memenuhi Ujian Akhir Semester (UAS) pada mata kuliah Pemrograman Mobile.
 
 * **Nama Lengkap**: Achmad Satrio
