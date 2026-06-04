@@ -163,10 +163,10 @@ Menyimpan riwayat nilai tertinggi kuis dari setiap pengguna untuk ditampilkan di
 ## 👤 Kontributor / Informasi Akademik
 Proyek ini dibuat untuk memenuhi Ujian Akhir Semester (UAS) pada mata kuliah Pemrograman Mobile.
 
-* **Nama Lengkap**: [Nama Anda]
-* **Program Studi**: [Program Studi Anda]
-* **Universitas / Instansi**: [Nama Kampus Anda]
-* **Dosen Pengampu**: [Nama Dosen Pengampu]
+* **Nama Lengkap**: Achmad Satrio
+* **Program Studi**: Teknologi Rekayasa Multimedia
+* **Universitas / Instansi**: Politeknik Negeri Media Kreatif
+* **Dosen Pengampu**: YUYUN KHAIRUNISA S.Si., M.Kom
 
 ---
 *Selamat belajar dan melestarikan budaya bangsa melalui **Griya Nusantara**!* 🏛️🇮🇩
