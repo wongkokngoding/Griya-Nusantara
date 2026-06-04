@@ -165,7 +165,6 @@ Proyek ini dibuat untuk memenuhi Ujian Akhir Semester (UAS) pada mata kuliah Pem
 
 * **Nama Lengkap**: Achmad Satrio
 * **Program Studi**: Teknologi Rekayasa Multimedia
-* **Universitas / Instansi**: Politeknik Negeri Media Kreatif
 * **Dosen Pengampu**: YUYUN KHAIRUNISA S.Si., M.Kom
 
 ---
